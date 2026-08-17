@@ -1,0 +1,385 @@
+---
+import { ClientRouter } from 'astro:transitions';
+const characters = [
+  { img: '/img/bincho/bincho.gif', name: 'びんちょうタン', desc: '山の中の古いい一軒家に住む少<br>女。<br>けげに一人で暮らしている。<br>お米を炊くのが上手。', cv: '野中藍' },
+  { img: '/img/bincho/kunugi.gif', name: 'クヌギたん', desc: '大きなお屋敷に住む少女。<br>学校に行くとき以外は敷地から<br>出ることが許されないくらい過<br>保護に育てられている。', cv: '野川さくら' },
+  { img: '/img/bincho/chikutan.gif', name: 'ちくたん', desc: '楽師のマダけじいちゃん。妹の<br>ちくりんと三人で暮らしている。<br><br>そっかしい面もあるが、家族<br>思いの優しい子。', cv: '門脇舞' },
+  { img: '/img/bincho/chikurin.gif', name: 'ちくりん', desc: '仕事のとき以外はいつもちくタ<br>んについていく、ちくタんの<br>妹。<br>幼く、言葉はカタコト。', cv: '福岡美里' },
+  { img: '/img/bincho/rentan.gif', name: 'れんたん', desc: '両親が神主・住職。<br>そのためか霊感を持っている。', cv: '佐藤利奈' },
+  { img: '/img/bincho/aroetan.gif', name: 'あろえ', desc: '泳ぐのが大好き。<br>水分が少なくなると元気がなく<br>なります。', cv: '齋藤桃子' },
+];
+const navs = [
+  { label: '登場人物', img: 'chara', href: '/' },
+  { label: '物　語', img: 'story', href: '/story' },
+  { label: '特別記事', img: 'special', href: '/special' },
+];
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<ClientRouter />
+		<title>TBS アニメーション「びんちょうタン」公式HP</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			html {
+				scrollbar-gutter: stable;
+			}
+
+			body {
+				background: url('/img/bg_parts.png') repeat-y left top, url('/img/bg.png') repeat left top;
+				color: #000;
+				font-family: 'Hiragino Kaku Gothic Pro', 'MS PGothic', sans-serif;
+			}
+
+			/* ===== 白色内容区（原站 table） ===== */
+			.page {
+				max-width: 720px;
+				margin: 0 auto;
+				background: #fff;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+			}
+
+			/* ===== 顶部行：标题 + 导航 ===== */
+			.top-row {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				padding-left: 8px;
+				height: 87px;
+				background: #fff;
+				border-bottom: 2px solid #FFB6C1;
+			}
+
+			.title-cell {
+				flex: 0 0 auto;
+			}
+
+			.title-cell img {
+				display: block;
+				width: auto;
+				height: 87px;
+			}
+
+			.nav-cell {
+				flex: 0 0 auto;
+				display: flex;
+				align-items: center;
+				white-space: nowrap;
+			}
+
+			.nav-cell a {
+				position: relative;
+				display: block;
+				width: 74px;
+				height: 87px;
+				overflow: hidden;
+				text-decoration: none;
+			}
+
+			.nav-default {
+				position: absolute;
+				left: 0;
+				top: 12px;
+				width: 74px;
+				height: 80px;
+				object-fit: contain;
+			}
+
+			.nav-pop {
+				position: absolute;
+				left: 0;
+				top: 100%;
+				width: 74px;
+				height: 80px;
+				transition: top 0.25s ease;
+			}
+
+			.nav-cell a:hover .nav-pop {
+				top: 7px;
+			}
+
+			.nav-cell a.tapped .nav-pop {
+				top: 7px;
+			}
+
+			/* ===== 内容行：偷看图 + 主体 ===== */
+			.content-row {
+				display: flex;
+				align-items: flex-start;
+				flex: 1;
+			}
+
+			.peek-cell {
+				flex: 0 0 161px;
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+				padding-top: 10px;
+				background: #fff;
+			}
+
+			.peek-cell img {
+				width: 120px;
+				height: auto;
+			}
+
+			.main-cell {
+				flex: 1;
+				padding: 10px 16px 30px 8px;
+				background: url('/img/bincho/suigin.jpg') right bottom no-repeat;
+			}
+
+			.section-title {
+				display: block;
+				margin-bottom: 16px;
+			}
+
+			/* ===== 角色列表 ===== */
+			.chara-list {
+				list-style: none;
+				padding: 0;
+			}
+
+			.chara-item {
+				display: flex;
+				align-items: flex-start;
+				gap: 20px;
+				padding: 16px 0;
+				border-bottom: 1px dashed #ccc;
+			}
+
+			.chara-item:last-child {
+				border-bottom: none;
+			}
+
+			.chara-item.reverse {
+				flex-direction: row-reverse;
+			}
+
+			.chara-img {
+				flex: 0 0 150px;
+			}
+
+			.chara-img img {
+				display: block;
+				width: 150px;
+				height: auto;
+				border: none;
+			}
+
+			.chara-info {
+				flex: 1;
+				padding-top: 4px;
+			}
+
+			.chara-name {
+				font-size: 15px;
+				font-weight: bold;
+				color: #000;
+				margin-bottom: 6px;
+			}
+
+			.chara-desc {
+				font-size: 12px;
+				color: #000;
+				line-height: 1.8;
+			}
+
+			.chara-cv {
+				font-size: 12px;
+				color: #000;
+				margin-top: 4px;
+			}
+
+			/* ===== 响应式 ===== */
+			@media only screen and (max-width: 640px) {
+				.top-row {
+					height: auto;
+					padding: 0 8px;
+					background: #fff;
+					border-bottom: 2px solid #FFB6C1;
+					flex-wrap: wrap;
+					justify-content: center;
+				}
+
+				.title-cell {
+					max-width: 100%;
+				}
+
+				.title-cell img {
+					width: auto;
+					height: 52px;
+					max-width: 100%;
+				}
+
+				.nav-cell {
+					width: 100%;
+					justify-content: center;
+					gap: 8px;
+					margin-top: 8px;
+				}
+
+				.nav-cell a {
+					width: 84px;
+					height: 105px;
+				}
+
+				.nav-cell a .nav-default {
+					width: 84px;
+					height: 90px;
+					top: 15px;
+					object-fit: contain;
+				}
+
+				.nav-cell a .nav-pop {
+					width: 84px;
+					height: 90px;
+					top: 100%;
+					object-fit: contain;
+				}
+
+				.nav-cell a:hover .nav-pop,
+				.nav-cell a:active .nav-pop,
+				.nav-cell a.tapped .nav-pop {
+					top: 15px;
+				}
+
+				.content-row {
+					flex-direction: column;
+				}
+
+				.peek-cell {
+					flex: none;
+					padding: 16px 0 0;
+					width: 100%;
+				}
+
+				.peek-cell img {
+					width: 96px;
+				}
+
+				.main-cell {
+					padding: 16px;
+					text-align: center;
+				}
+
+				.section-title {
+					width: 100%;
+					max-width: 320px;
+					height: auto;
+					margin: 0 auto 16px;
+					display: block;
+				}
+
+				.chara-item {
+					flex-direction: column !important;
+					align-items: center;
+					text-align: center;
+					gap: 10px;
+					padding: 20px 0;
+				}
+
+				.chara-img {
+					flex: none;
+				}
+
+				.chara-img img {
+					width: 140px;
+				}
+
+				.chara-info {
+					flex: none;
+					width: 100%;
+				}
+
+				.chara-name {
+					font-size: 20px;
+				}
+
+				.chara-desc {
+					font-size: 16px;
+					line-height: 1.7;
+				}
+
+				.chara-cv {
+					font-size: 15px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<!-- 顶部行：标题 + 导航 -->
+			<div class="top-row">
+				<div class="title-cell">
+					<img src="/img/bincho/title.png" alt="びんちょうタン" />
+				</div>
+				<div class="nav-cell" id="navCell">
+					{
+						navs.map((n) => (
+							<a href={n.href}>
+								<img class="nav-default" src="/img/bincho/nav.gif" alt={n.label} />
+								<img class="nav-pop" src="/img/bincho/over.gif" alt="" />
+							</a>
+						))
+					}
+				</div>
+			</div>
+
+			<!-- 内容行：偷看图 + 主体 -->
+			<div class="content-row">
+				<div class="peek-cell">
+					<img src="/img/bincho/nozoki1.jpg" alt="のぞき" width="120" />
+				</div>
+				<div class="main-cell">
+					<img class="section-title" src="/img/bincho/menu_chara.gif" alt="登場人物" />
+
+					<ul class="chara-list">
+						{
+							characters.map((c, i) => (
+								<li class:list={['chara-item', i % 2 === 1 && 'reverse']}>
+									<div class="chara-img">
+										<img src={c.img} alt={c.name} />
+									</div>
+									<div class="chara-info">
+										<div class="chara-name">{c.name}</div>
+										<div class="chara-desc" set:html={c.desc} />
+										{c.cv && <div class="chara-cv">（CV：{c.cv}）</div>}
+									</div>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+			</div>
+
+
+		</div>
+
+		<script is:inline>
+			if (window.matchMedia('(pointer: coarse)').matches) {
+				document.querySelectorAll('.nav-cell a').forEach((link) => {
+					link.addEventListener('click', (e) => {
+						e.preventDefault();
+						link.classList.add('tapped');
+						setTimeout(() => {
+							window.location.href = link.getAttribute('href');
+						}, 350);
+					});
+				});
+			}
+		</script>
+	</body>
+</html>

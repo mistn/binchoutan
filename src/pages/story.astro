@@ -1,0 +1,510 @@
+---
+import { ClientRouter } from 'astro:transitions';
+const navs = [
+  { label: '登場人物', img: 'chara', href: '/' },
+  { label: '物　語', img: 'story', href: '/story' },
+  { label: '特別記事', img: 'special', href: '/special' },
+];
+
+const episodes = [
+  {
+    num: 1,
+    title: '春のお目ざめびん',
+    date: 'TBS放送日：2006年2月2日',
+    staff: '絵コンテ・演出：古橋一浩　作監：斎藤哲人',
+    desc: '差し込む朝日で目を覚ますびんちょうタン。\n朝ごはんの準備のため、山菜を摘みに森を抜け、カモに乗って大きな池を渡り野原へ出掛ける・・・。',
+    images: ['1_1.jpg','1_2.jpg','1_3.jpg','1_4.jpg','1_5.jpg','1_6.jpg'],
+  },
+  {
+    num: 2,
+    title: 'お仕事げっとびん',
+    date: 'TBS放送日：2006年2月9日',
+    staff: '絵コンテ：古橋一浩　演出・作監：菅沼栄治',
+    desc: 'お米が無い事に気付いたびんちょうタンは仕事を求め、街へ。\n求人欄を前に悪戦苦闘するも何とかお仕事をゲットする・・・',
+    images: ['2_1.jpg','2_2.jpg','2_3.jpg','2_4.jpg','2_5.jpg','2_6.jpg'],
+  },
+  {
+    num: 3,
+    title: 'びんのお誕生びん',
+    date: 'TBS放送日：2006年2月16日',
+    staff: '絵コンテ：古橋一浩　演出・作監：石浜真史',
+    desc: '早朝ウバメガ氏から手紙とプレゼントが届く。\n今日はびんちょうタンの誕生日。\n仕事に向かう途中、学校に向かうクヌギたんに目撃され、発明好きのちくタンと出会う。\n仕事帰り、ちくタンの家に誘われたびんちょうタンは…。',
+    images: ['3_1.jpg','3_2.jpg','3_3.jpg','3_4.jpg','3_5.jpg','3_6.jpg'],
+  },
+  {
+    num: 4,
+    title: '雨の日曜びん',
+    date: 'TBS放送日：2006年2月23日',
+    staff: '絵コンテ：古橋一浩　演出：うえだしげる　作監：山田　勝',
+    desc: '雨の日、普段通り仕事に向かうびんちょうタン。\n途中ちくタンと出会い、今日が休みである事に気付く。',
+    images: ['4_1.jpg','4_2.jpg','4_4.jpg','4_6.jpg','4_5.jpg','4_7.jpg'],
+  },
+  {
+    num: 5,
+    title: '着物のおもひでびん',
+    date: 'TBS放送日：2006年3月2日',
+    staff: '絵コンテ・演出・作監：菅沼栄治',
+    desc: 'ちくタンと仕事を取り替えることになったびんちょうタン。\n立派な学校での仕事だからいつもよりおしゃれをするよう言われたものの、いつもの着物で仕事に向かう。\n途中、クヌギたんが乗った馬車に泥をはねられてしまい…',
+    images: ['5_1.jpg','5_2.jpg','5_3.jpg','5_6.jpg','5_5.jpg','5_4.jpg'],
+  },
+  {
+    num: 6,
+    title: '夜のおつとめびん',
+    date: 'TBS放送日：2006年3月9日',
+    staff: '絵コンテ：古橋一浩　演出・作監：浅野勝也',
+    desc: '駄菓子屋でアタリが出ないちく姉妹にアタリチョコをあげるれんタン。\n仕事のお礼に貰った団子を地蔵様に供えるびんちょうタン。\n今日も一日が過ぎて行き…',
+    images: ['6_1.jpg','6_2.jpg','6_3.jpg','6_6.jpg','6_5.jpg','6_4.jpg'],
+  },
+  {
+    num: 7,
+    title: 'ラムネとりんごあめびん',
+    date: 'TBS放送日：2006年3月16日',
+    staff: '絵コンテ：古橋一浩　演出：鈴木芳成　作監：山田勝',
+    desc: '夏祭りを楽しむちく姉妹とあろえに、仕事を終えたびんちょうタンも合流。\n一方、お祭りに行けないクヌギたんは、スダじいからラムネをもらう…。',
+    images: ['7_1.jpg','7_2.jpg','7_3.jpg','7_6.jpg','7_5.jpg','7_4.jpg'],
+  },
+  {
+    num: 8,
+    title: 'むすんでひらいてびん',
+    date: 'TBS放送日：2006年3月23日',
+    staff: '絵コンテ：古橋一浩　演出：石田博　作監：波風立流',
+    desc: '街で野良犬を見つけたびんちょうタン。\nちくタンと一緒に「さじ」と名付けて、二人で飼うことにする。\n学校での仕事を終えたびんちょうタンの元に駆け寄る「さじ」。\nそこに集まった子どもたちの中には、クヌギたんもいて…。',
+    images: ['8_1.jpg','8_2.jpg','8_3.jpg','8_6.jpg','8_5.jpg','8_4.jpg'],
+  },
+  {
+    num: 9,
+    title: 'クワガタついてるびん',
+    date: 'TBS放送日：2006年3月30日',
+    staff: '絵コンテ：古橋一浩　演出・作監：萩原弘光',
+    desc: '町外れで薬を売るちくタンだが、なかなか売れず苦戦する。\nしかし、そこに現れたれんタンのアドバイスで場所を替えると、薬はすぐに売り切れた。\n一方、びんちょうタンに会えるのを楽しみにしていたクヌギたんは…。',
+    images: ['9-1.jpg','9-2.jpg','9-6.jpg','9-5.jpg','9-4.jpg','9-7.jpg'],
+  },
+  {
+    num: 10,
+    title: 'おイモの季節びん',
+    date: '',
+    staff: '',
+    desc: 'びんちょうタンが公園で栗とキノコを売っていると、やがてちくタンが公園にやってきた。\nびんちょうタンは物々交換で手に入れたさつまいもをちくタンと「さじ」、そしてたまたま通りかかったクヌギたんに分け与えた。\nさつまいもがまだたくさん残っていたので、ちくタンの提案でれんたんが住むお寺へ向かい、落ち葉でさつまいもを焼くことにした。',
+    images: ['10_1.jpg'],
+  },
+  {
+    num: 11,
+    title: '初雪、初ぞり、初飛行びん',
+    date: '',
+    staff: '',
+    desc: 'びんちょうタンの小さな市の商売は大好調で、冬に必要な物品をすべて揃えることができた。\nその夜、雪が降り始め、翌朝起きたら目の前に広がるのは一面の銀世界。\nびんちょうタンとちくタンたちは雪山で雪遊びをした。\nその時、クヌギたんが乗った熱気球も雪山の空に現れ、びんちょうタンはみんながクヌギたんの飛行を羨ましがっているのを見て、その願いを叶える方法を告げた…。',
+    images: ['11_1.jpg'],
+  },
+  {
+    num: 12,
+    title: 'お空にお手紙びん',
+    date: '',
+    staff: '',
+    desc: '今日は大晦日。しかしびんちょうタンは風邪で体調を崩している。\n「さじ」も心配そうにそばで吠え続けている。\n大晦日の鐘を鳴らしたれんたんとちくタンは、びんちょうタンが現れないことに心配し始めた。\nそんな時、お寺に初詣に来たクヌギたんが、「さじ」が彼女に向かって走ってくるのを見かけた。\n正月の早朝、みんなの見守る中で、びんちょうタンはついに…。',
+    images: ['12_1.jpg'],
+  },
+];
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<ClientRouter />
+		<title>TBS アニメーション「びんちょうタン」公式HP - 物語</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			html {
+				scrollbar-gutter: stable;
+			}
+
+			body {
+				background: url('/img/bg_parts.png') repeat-y left top, url('/img/bg.png') repeat left top;
+				color: #000;
+				font-family: 'Hiragino Kaku Gothic Pro', 'MS PGothic', sans-serif;
+			}
+
+			.page {
+				max-width: 720px;
+				margin: 0 auto;
+				background: #fff;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+			}
+
+			.top-row {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				padding-left: 8px;
+				height: 87px;
+				background: #fff;
+				border-bottom: 2px solid #FFB6C1;
+			}
+
+			.title-cell {
+				flex: 0 0 auto;
+			}
+
+			.title-cell img {
+				display: block;
+				width: auto;
+				height: 87px;
+			}
+
+			.nav-cell {
+				flex: 0 0 auto;
+				display: flex;
+				align-items: center;
+				white-space: nowrap;
+			}
+
+			.nav-cell a {
+				position: relative;
+				display: block;
+				width: 74px;
+				height: 87px;
+				overflow: hidden;
+				text-decoration: none;
+			}
+
+			.nav-default {
+				position: absolute;
+				left: 0;
+				top: 12px;
+				width: 74px;
+				height: 80px;
+				object-fit: contain;
+			}
+
+			.nav-pop {
+				position: absolute;
+				left: 0;
+				top: 100%;
+				width: 74px;
+				height: 80px;
+				transition: top 0.25s ease;
+			}
+
+			.nav-cell a:hover .nav-pop {
+				top: 7px;
+			}
+
+			.nav-cell a.tapped .nav-pop {
+				top: 7px;
+			}
+
+			.content-row {
+				display: flex;
+				align-items: flex-start;
+				flex: 1;
+			}
+
+			.peek-cell {
+				flex: 0 0 161px;
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+				padding-top: 10px;
+				background: #fff;
+			}
+
+			.peek-cell img {
+				width: 120px;
+				height: auto;
+			}
+
+			.main-cell {
+				flex: 1;
+				padding: 10px 16px 30px 8px;
+				background: url('/img/bincho/suigin.jpg') right bottom no-repeat;
+			}
+
+			.section-title {
+				display: block;
+				margin-bottom: 16px;
+			}
+
+			.story-intro {
+				font-size: 12px;
+				line-height: 1.8;
+				margin-bottom: 16px;
+				list-style: none;
+			}
+
+			.story-intro li {
+				margin-bottom: 8px;
+			}
+
+			/* 剧集表格 */
+			.episode-table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 20px;
+			}
+
+			.episode-header {
+				background: #30A9FF;
+				color: #fff;
+				padding: 6px 10px;
+				font-size: 13px;
+				font-weight: bold;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.episode-date {
+				font-size: 11px;
+				font-weight: normal;
+			}
+
+			.episode-body {
+				padding: 10px;
+				font-size: 12px;
+				line-height: 1.8;
+			}
+
+			.episode-staff {
+				font-size: 12px;
+				margin-bottom: 8px;
+			}
+
+			.episode-desc {
+				font-size: 12px;
+				margin-bottom: 10px;
+				white-space: pre-line;
+			}
+
+			.episode-images {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				gap: 4px;
+				margin-top: 8px;
+			}
+
+			.episode-images img {
+				width: 120px;
+				height: 90px;
+				border: none;
+			}
+
+			.site-footer {
+				padding: 12px 16px;
+				font-size: 11px;
+				color: #fff;
+				line-height: 1.7;
+			}
+
+			.site-footer a {
+				color: #fff;
+				text-decoration: none;
+			}
+
+			.site-footer a:hover {
+				text-decoration: underline;
+			}
+
+			@media only screen and (max-width: 640px) {
+				.top-row {
+					height: auto;
+					padding: 0 8px;
+					background: #fff;
+					border-bottom: 2px solid #FFB6C1;
+					flex-wrap: wrap;
+					justify-content: center;
+				}
+
+				.title-cell {
+					max-width: 100%;
+				}
+
+				.title-cell img {
+					width: auto;
+					height: 52px;
+					max-width: 100%;
+				}
+
+				.nav-cell {
+					width: 100%;
+					justify-content: center;
+					gap: 8px;
+					margin-top: 8px;
+				}
+
+				.nav-cell a {
+					width: 84px;
+					height: 105px;
+				}
+
+				.nav-cell a .nav-default {
+					width: 84px;
+					height: 90px;
+					top: 15px;
+					object-fit: contain;
+				}
+
+				.nav-cell a .nav-pop {
+					width: 84px;
+					height: 90px;
+					top: 100%;
+					object-fit: contain;
+				}
+
+				.nav-cell a:hover .nav-pop,
+				.nav-cell a:active .nav-pop,
+				.nav-cell a.tapped .nav-pop {
+					top: 15px;
+				}
+
+				.content-row {
+					flex-direction: column;
+				}
+
+				.peek-cell {
+					flex: none;
+					padding: 16px 0 0;
+					width: 100%;
+				}
+
+				.peek-cell img {
+					width: 96px;
+				}
+
+				.main-cell {
+					padding: 16px;
+					text-align: center;
+				}
+
+				.section-title {
+					width: 100%;
+					max-width: 320px;
+					height: auto;
+					margin: 0 auto 16px;
+					display: block;
+				}
+
+				.story-intro {
+					font-size: 16px;
+					text-align: left;
+				}
+
+				.episode-header {
+					flex-direction: column;
+					gap: 4px;
+					text-align: center;
+					padding: 10px;
+				}
+
+				.episode-header span:first-child {
+					font-size: 17px;
+				}
+
+				.episode-date {
+					font-size: 14px;
+				}
+
+				.episode-body {
+					padding: 14px;
+					text-align: left;
+				}
+
+				.episode-staff {
+					font-size: 14px;
+				}
+
+				.episode-desc {
+					font-size: 16px;
+					line-height: 1.7;
+				}
+
+				.episode-images {
+					grid-template-columns: repeat(2, 1fr);
+					gap: 8px;
+				}
+
+				.episode-images img {
+					width: 100%;
+					height: auto;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div class="top-row">
+				<div class="title-cell">
+					<img src="/img/bincho/title.png" alt="びんちょうタン" />
+				</div>
+				<div class="nav-cell" id="navCell">
+					{
+						navs.map((n) => (
+							<a href={n.href}>
+								<img class="nav-default" src="/img/bincho/nav.gif" alt={n.label} />
+								<img class="nav-pop" src="/img/bincho/over.gif" alt="" />
+							</a>
+						))
+					}
+				</div>
+			</div>
+
+			<div class="content-row">
+				<div class="peek-cell">
+					<img src="/img/bincho/nozoki1.jpg" alt="のぞき" width="120" />
+				</div>
+				<div class="main-cell">
+					<img class="section-title" src="/img/bincho/menu_story.gif" alt="物語" />
+
+					<ul class="story-intro">
+						<li>山の中の一軒家で暮らす一人の少女の物語。<br />
+						けなげに一生懸命日々を過ごす彼女の「のんびり」ストーリー。</li>
+					</ul>
+
+					{episodes.map((ep) => (
+						<div class="episode-table">
+							<div class="episode-header">
+								<span>第{ep.num}話「{ep.title}」</span>
+								<span class="episode-date">{ep.date}</span>
+							</div>
+							<div class="episode-body">
+								<div class="episode-staff" set:html={ep.staff} />
+								<div class="episode-desc" set:html={ep.desc} />
+								<hr />
+								<div class="episode-images">
+									{ep.images.map((img) => (
+										<img src={`/img/bincho/story/${img}`} alt={`第${ep.num}話`} loading="lazy" />
+									))}
+								</div>
+								<hr />
+							</div>
+						</div>
+					))}
+				</div>
+			</div>
+
+	
+		</div>
+
+		<script is:inline>
+			if (window.matchMedia('(pointer: coarse)').matches) {
+				document.querySelectorAll('.nav-cell a').forEach((link) => {
+					link.addEventListener('click', (e) => {
+						e.preventDefault();
+						link.classList.add('tapped');
+						setTimeout(() => {
+							window.location.href = link.getAttribute('href');
+						}, 350);
+					});
+				});
+			}
+		</script>
+	</body>
+</html>

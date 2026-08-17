@@ -1,0 +1,338 @@
+---
+import { ClientRouter } from 'astro:transitions';
+const navs = [
+  { label: '登場人物', img: 'chara', href: '/' },
+  { label: '物　語', img: 'story', href: '/story' },
+  { label: '特別記事', img: 'special', href: '/special' },
+];
+
+const walls = [
+  { img: 'bincho.jpg', name: 'bincho.jpg' },
+  { img: 'chikutan.jpg', name: 'chikutan.jpg' },
+  { img: 'kunugi.jpg', name: 'kunugi.jpg' },
+  { img: 'ren.jpg', name: 'ren.jpg' },
+  { img: 'aroe.jpg', name: 'aroe.jpg' },
+  { img: 'chikurin.jpg', name: 'chikurin.jpg' },
+];
+---
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<ClientRouter />
+		<title>TBS アニメーション「びんちょうタン」公式HP - 特別記事</title>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+
+			html {
+				scrollbar-gutter: stable;
+			}
+
+			body {
+				background: url('/img/bg_parts.png') repeat-y left top, url('/img/bg.png') repeat left top;
+				color: #000;
+				font-family: 'Hiragino Kaku Gothic Pro', 'MS PGothic', sans-serif;
+			}
+
+			.page {
+				max-width: 720px;
+				margin: 0 auto;
+				background: #fff;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+			}
+
+			.top-row {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				padding-left: 8px;
+				height: 87px;
+				background: #fff;
+				border-bottom: 2px solid #FFB6C1;
+			}
+
+			.title-cell {
+				flex: 0 0 auto;
+			}
+
+			.title-cell img {
+				display: block;
+				width: auto;
+				height: 87px;
+			}
+
+			.nav-cell {
+				flex: 0 0 auto;
+				display: flex;
+				align-items: center;
+				white-space: nowrap;
+			}
+
+			.nav-cell a {
+				position: relative;
+				display: block;
+				width: 74px;
+				height: 87px;
+				overflow: hidden;
+				text-decoration: none;
+			}
+
+			.nav-default {
+				position: absolute;
+				left: 0;
+				top: 12px;
+				width: 74px;
+				height: 80px;
+				object-fit: contain;
+			}
+
+			.nav-pop {
+				position: absolute;
+				left: 0;
+				top: 100%;
+				width: 74px;
+				height: 80px;
+				transition: top 0.25s ease;
+			}
+
+			.nav-cell a:hover .nav-pop {
+				top: 7px;
+			}
+
+			.nav-cell a.tapped .nav-pop {
+				top: 7px;
+			}
+
+			.content-row {
+				display: flex;
+				align-items: flex-start;
+				flex: 1;
+			}
+
+			.peek-cell {
+				flex: 0 0 161px;
+				display: flex;
+				justify-content: center;
+				align-items: flex-start;
+				padding-top: 10px;
+				background: #fff;
+			}
+
+			.peek-cell img {
+				width: 120px;
+				height: auto;
+			}
+
+			.main-cell {
+				flex: 1;
+				padding: 10px 16px 30px 8px;
+				background: url('/img/bincho/suigin.jpg') right bottom no-repeat;
+			}
+
+			.section-title {
+				display: block;
+				margin-bottom: 16px;
+			}
+
+			.wall-title {
+				font-size: 15px;
+				font-weight: bold;
+				margin-bottom: 12px;
+			}
+
+			.wall-grid {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin-bottom: 16px;
+			}
+
+			.wall-item {
+				text-align: center;
+				font-size: 11px;
+			}
+
+			.wall-item img {
+				border: 1px solid #999;
+				height: 100px;
+				width: 75px;
+				object-fit: cover;
+				display: block;
+				margin-bottom: 4px;
+			}
+
+			.wall-item a {
+				font-size: 11px;
+				color: #000;
+			}
+
+			@media only screen and (max-width: 640px) {
+				.top-row {
+					height: auto;
+					padding: 0 8px;
+					background: #fff;
+					border-bottom: 2px solid #FFB6C1;
+					flex-wrap: wrap;
+					justify-content: center;
+				}
+
+				.title-cell {
+					max-width: 100%;
+				}
+
+				.title-cell img {
+					width: auto;
+					height: 52px;
+					max-width: 100%;
+				}
+
+				.nav-cell {
+					width: 100%;
+					justify-content: center;
+					gap: 8px;
+					margin-top: 8px;
+				}
+
+				.nav-cell a {
+					width: 84px;
+					height: 105px;
+				}
+
+				.nav-cell a .nav-default {
+					width: 84px;
+					height: 90px;
+					top: 15px;
+					object-fit: contain;
+				}
+
+				.nav-cell a .nav-pop {
+					width: 84px;
+					height: 90px;
+					top: 100%;
+					object-fit: contain;
+				}
+
+				.nav-cell a:hover .nav-pop,
+				.nav-cell a:active .nav-pop,
+				.nav-cell a.tapped .nav-pop {
+					top: 15px;
+				}
+
+				.content-row {
+					flex-direction: column;
+				}
+
+				.peek-cell {
+					flex: none;
+					padding: 16px 0 0;
+					width: 100%;
+				}
+
+				.peek-cell img {
+					width: 96px;
+				}
+
+				.main-cell {
+					padding: 16px;
+					text-align: center;
+				}
+
+				.section-title {
+					width: 100%;
+					max-width: 320px;
+					height: auto;
+					margin: 0 auto 16px;
+					display: block;
+				}
+
+				.wall-title {
+					font-size: 20px;
+					text-align: center;
+					margin-bottom: 16px;
+				}
+
+				.wall-grid {
+					justify-content: center;
+					gap: 16px;
+				}
+
+				.wall-item {
+					font-size: 14px;
+				}
+
+				.wall-item img {
+					height: 140px;
+					width: 105px;
+				}
+
+				.wall-item a {
+					font-size: 14px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="page">
+			<div class="top-row">
+				<div class="title-cell">
+					<img src="/img/bincho/title.png" alt="びんちょうタン" />
+				</div>
+				<div class="nav-cell" id="navCell">
+					{
+						navs.map((n) => (
+							<a href={n.href}>
+								<img class="nav-default" src="/img/bincho/nav.gif" alt={n.label} />
+								<img class="nav-pop" src="/img/bincho/over.gif" alt="" />
+							</a>
+						))
+					}
+				</div>
+			</div>
+
+			<div class="content-row">
+				<div class="peek-cell">
+					<img src="/img/bincho/nozoki1.jpg" alt="のぞき" width="120" />
+				</div>
+				<div class="main-cell">
+					<img class="section-title" src="/img/bincho/menu_special.gif" alt="特別記事" />
+
+					<div class="wall-title">携帯待受</div>
+
+					<div class="wall-grid">
+						{
+							walls.map((w) => (
+								<div class="wall-item">
+									<img src={`/img/bincho/special/${w.img}`} alt={w.name} loading="lazy" />
+									<a href={`/img/bincho/special/${w.img}`} download={w.name}>{w.name}</a>
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script is:inline>
+			if (window.matchMedia('(pointer: coarse)').matches) {
+				document.querySelectorAll('.nav-cell a').forEach((link) => {
+					link.addEventListener('click', (e) => {
+						e.preventDefault();
+						link.classList.add('tapped');
+						setTimeout(() => {
+							window.location.href = link.getAttribute('href');
+						}, 350);
+					});
+				});
+			}
+		</script>
+	</body>
+</html>
