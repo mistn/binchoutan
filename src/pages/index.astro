@@ -1,12 +1,12 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 const characters = [
-  { img: '/img/bincho/bincho.gif', name: 'びんちょうタン', desc: '山の中の古いい一軒家に住む少<br>女。<br>けげに一人で暮らしている。<br>お米を炊くのが上手。', cv: '野中藍' },
-  { img: '/img/bincho/kunugi.gif', name: 'クヌギたん', desc: '大きなお屋敷に住む少女。<br>学校に行くとき以外は敷地から<br>出ることが許されないくらい過<br>保護に育てられている。', cv: '野川さくら' },
-  { img: '/img/bincho/chikutan.gif', name: 'ちくたん', desc: '楽師のマダけじいちゃん。妹の<br>ちくりんと三人で暮らしている。<br><br>そっかしい面もあるが、家族<br>思いの優しい子。', cv: '門脇舞' },
-  { img: '/img/bincho/chikurin.gif', name: 'ちくりん', desc: '仕事のとき以外はいつもちくタ<br>んについていく、ちくタんの<br>妹。<br>幼く、言葉はカタコト。', cv: '福岡美里' },
-  { img: '/img/bincho/rentan.gif', name: 'れんたん', desc: '両親が神主・住職。<br>そのためか霊感を持っている。', cv: '佐藤利奈' },
-  { img: '/img/bincho/aroetan.gif', name: 'あろえ', desc: '泳ぐのが大好き。<br>水分が少なくなると元気がなく<br>なります。', cv: '齋藤桃子' },
+  { img: '/img/bincho/bincho.gif', name: 'びんちょうタン', desc: '山の中の古いい一軒家に住む少女。けげに一人で暮らしている。お米を炊くのが上手。', cv: '野中藍' },
+  { img: '/img/bincho/kunugi.gif', name: 'クヌギたん', desc: '大きなお屋敷に住む少女。学校に行くとき以外は敷地から出ることが許されないくらい過保護に育てられている。', cv: '野川さくら' },
+  { img: '/img/bincho/chikutan.gif', name: 'ちくたん', desc: '楽師のマダけじいちゃん。妹のちくりんと三人で暮らしている。そっかしい面もあるが、家族思いの優しい子。', cv: '門脇舞' },
+  { img: '/img/bincho/chikurin.gif', name: 'ちくりん', desc: '仕事のとき以外はいつもちくタんについていく、ちくタんの妹。幼く、言葉はカタコト。', cv: '福岡美里' },
+  { img: '/img/bincho/rentan.gif', name: 'れんたん', desc: '両親が神主・住職。そのためか霊感を持っている。', cv: '佐藤利奈' },
+  { img: '/img/bincho/aroetan.gif', name: 'あろえ', desc: '泳ぐのが大好き。水分が少なくなると元気がなくなります。', cv: '齋藤桃子' },
 ];
 const navs = [
   { label: '登場人物', img: 'chara', href: '/' },
@@ -65,10 +65,37 @@ const navs = [
 				flex: 0 0 auto;
 			}
 
-			.title-cell img {
-				display: block;
-				width: auto;
+			.site-title {
+				display: flex;
+				align-items: center;
 				height: 87px;
+				font-family: 'Hiragino Maru Gothic ProN', 'Yu Gothic', 'Meiryo', 'MS PGothic', sans-serif;
+				font-weight: bold;
+				font-size: 34px;
+				line-height: 1;
+				white-space: nowrap;
+			}
+
+			.title-main {
+				display: inline-block;
+				letter-spacing: 1px;
+				color: #00AEEF;
+				background: linear-gradient(180deg, #7fd8ff 0%, #00AEEF 55%, #0079bf 100%);
+				-webkit-background-clip: text;
+				background-clip: text;
+				-webkit-text-fill-color: transparent;
+				filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.12));
+			}
+
+			.title-tan {
+				margin-left: 4px;
+				padding: 2px 6px;
+				font-size: 0.9em;
+				color: #E60012;
+				border: 2px solid #E60012;
+				border-radius: 3px;
+				transform: rotate(-6deg);
+				box-shadow: 0 2px 0 rgba(230, 0, 18, 0.18);
 			}
 
 			.nav-cell {
@@ -90,9 +117,9 @@ const navs = [
 			.nav-default {
 				position: absolute;
 				left: 0;
-				top: 12px;
+				top: 0;
 				width: 74px;
-				height: 80px;
+				height: 87px;
 				object-fit: contain;
 			}
 
@@ -113,30 +140,16 @@ const navs = [
 				top: 7px;
 			}
 
-			/* ===== 内容行：偷看图 + 主体 ===== */
+			/* ===== 内容行：主体 ===== */
 			.content-row {
 				display: flex;
 				align-items: flex-start;
 				flex: 1;
 			}
 
-			.peek-cell {
-				flex: 0 0 161px;
-				display: flex;
-				justify-content: center;
-				align-items: flex-start;
-				padding-top: 10px;
-				background: #fff;
-			}
-
-			.peek-cell img {
-				width: 120px;
-				height: auto;
-			}
-
 			.main-cell {
 				flex: 1;
-				padding: 10px 16px 30px 8px;
+				padding: 10px 16px 30px 16px;
 				background: url('/img/bincho/suigin.jpg') right bottom no-repeat;
 			}
 
@@ -184,16 +197,16 @@ const navs = [
 			}
 
 			.chara-name {
-				font-size: 15px;
+				font-size: 16px;
 				font-weight: bold;
 				color: #000;
 				margin-bottom: 6px;
 			}
 
 			.chara-desc {
-				font-size: 12px;
+				font-size: 13px;
 				color: #000;
-				line-height: 1.8;
+				line-height: 1.9;
 			}
 
 			.chara-cv {
@@ -217,56 +230,49 @@ const navs = [
 					max-width: 100%;
 				}
 
-				.title-cell img {
-					width: auto;
+				.site-title {
 					height: 52px;
-					max-width: 100%;
+					font-size: 22px;
 				}
 
 				.nav-cell {
 					width: 100%;
 					justify-content: center;
-					gap: 8px;
-					margin-top: 8px;
+					gap: 10px;
+					margin-top: 2px;
 				}
 
 				.nav-cell a {
 					width: 84px;
-					height: 105px;
+					height: 64px;
 				}
 
 				.nav-cell a .nav-default {
 					width: 84px;
-					height: 90px;
-					top: 15px;
-					object-fit: contain;
+					height: 32px;
+					top: auto;
+					bottom: 0;
+					left: 0;
+					object-fit: cover;
+					object-position: bottom;
 				}
 
 				.nav-cell a .nav-pop {
 					width: 84px;
-					height: 90px;
+					height: 64px;
 					top: 100%;
-					object-fit: contain;
+					object-fit: cover;
+					object-position: center bottom;
 				}
 
 				.nav-cell a:hover .nav-pop,
 				.nav-cell a:active .nav-pop,
 				.nav-cell a.tapped .nav-pop {
-					top: 15px;
+					top: 0;
 				}
 
 				.content-row {
 					flex-direction: column;
-				}
-
-				.peek-cell {
-					flex: none;
-					padding: 16px 0 0;
-					width: 100%;
-				}
-
-				.peek-cell img {
-					width: 96px;
 				}
 
 				.main-cell {
@@ -323,7 +329,7 @@ const navs = [
 			<!-- 顶部行：标题 + 导航 -->
 			<div class="top-row">
 				<div class="title-cell">
-					<img src="/img/bincho/title.png" alt="びんちょうタン" />
+					<span class="site-title"><span class="title-main">びんちょう</span><span class="title-tan">タン</span></span>
 				</div>
 				<div class="nav-cell" id="navCell">
 					{
@@ -337,11 +343,8 @@ const navs = [
 				</div>
 			</div>
 
-			<!-- 内容行：偷看图 + 主体 -->
+			<!-- 内容行：主体 -->
 			<div class="content-row">
-				<div class="peek-cell">
-					<img src="/img/bincho/nozoki1.jpg" alt="のぞき" width="120" />
-				</div>
 				<div class="main-cell">
 					<img class="section-title" src="/img/bincho/menu_chara.gif" alt="登場人物" />
 
